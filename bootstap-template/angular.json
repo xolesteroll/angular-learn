@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "my-first-app": {
+    "bootstap-template": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/my-first-app",
+            "outputPath": "dist/bootstap-template",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "my-first-app:build:production"
+              "browserTarget": "bootstap-template:build:production"
             },
             "development": {
-              "browserTarget": "my-first-app:build:development"
+              "browserTarget": "bootstap-template:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "my-first-app:build"
+            "browserTarget": "bootstap-template:build"
           }
         },
         "test": {
@@ -94,7 +94,6 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -103,5 +102,5 @@
       }
     }
   },
-  "defaultProject": "my-first-app"
+  "defaultProject": "bootstap-template"
 }
