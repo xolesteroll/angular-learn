@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <button
         class="btn btn-primary"
-        (click)="onlyOdd = !onlyOdd">Only show odd numbers</button>
+        (click)="onlyOdd = !onlyOdd; switchNum()">Only show odd numbers</button>
       <br><br>
       <ul class="list-group">
         <li
@@ -13,8 +13,18 @@
       <ng-template [ngIf]="onlyOdd">
         <p>Only odd</p>
       </ng-template>
+      <div *appUnless="onlyOdd">
+        <p>Only if not</p>
+      </div>
+      <div class="switch" [ngSwitch]="index">
+        <p *ngSwitchCase="0">Value is 1</p>
+        <p *ngSwitchCase="1">Value is 2</p>
+        <p *ngSwitchCase="2">Value is 3</p>
+        <p *ngSwitchCase="3">Value is 4</p>
+        <p *ngSwitchCase="4">Value is 5</p>
+      </div>
       <p appBasicHighLight>Style me wuith basic directive</p>
-      <p appBetterHighlight [defaultColor]="'yellow'" [highlightColor]="'red'">Style me wuith better directive</p>
+      <p appBetterHighlight [defaultColor]="'yellow'" [highlightColor]="'black'">Style me wuith better directive</p>
     </div>
   </div>
 </div>

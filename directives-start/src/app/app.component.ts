@@ -8,4 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   numbers = [1, 2, 3, 4, 5];
   onlyOdd = false;
+  index = 0
+
+  switchNum() {
+    this.index++
+    if(this.index > this.numbers.length - 1) {
+      this.index = 0
+    }
+  }
+
+
 }
