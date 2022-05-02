@@ -8,4 +8,9 @@ import {UsersService} from "./users.service";
   providers: [UsersService]
 })
 export class AppComponent{
+  count: number
+
+  constructor() {
+  }
+
 }
