@@ -26,8 +26,7 @@ export class ServerComponent implements OnInit {
   }
 
   onEdit() {
-    const id = +this.route.snapshot.params['id']
-    this.router.navigate([id, 'edit'])
+    this.router.navigate(['edit'], {relativeTo: this.route, queryParamsHandling: 'preserve'})
   }
 
 }
