@@ -6,9 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  navLink: string = 'recipes'
-
-  onNavigationFired(navElement: string) {
-    this.navLink = navElement
-  }
 }
