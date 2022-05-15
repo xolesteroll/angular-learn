@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { CustomerComponent } from './customers/customer.component';
+import {AppComponent} from './app.component';
+import {CustomerComponent} from './customers/customer.component';
 
 @NgModule({
   declarations: [
@@ -12,8 +12,9 @@ import { CustomerComponent } from './customers/customer.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

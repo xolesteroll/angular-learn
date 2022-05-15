@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormControl} from "@angular/forms";
 
-import { Customer } from './customer';
+import {Customer} from './customer';
 
 @Component({
   selector: 'app-customer',
@@ -12,12 +12,17 @@ export class CustomerComponent implements OnInit {
   customerForm!: FormGroup;
   customer = new Customer();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.customerForm = new FormGroup({
-
+      'firstName': new FormControl(),
+      'lastName': new FormControl(),
+      'email': new FormControl(),
+      'sendCatalog': new FormControl(true)
     })
+    console.log(this.customerForm)
   }
 
   save(): void {
