@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn} from '@angular/forms';
 
 import {Customer} from './customer';
+import {debounceTime} from "rxjs/operators";
 
 const ratingRange = (min: number, max: number): ValidatorFn => {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
@@ -34,6 +35,12 @@ const emailMatch = (c: AbstractControl): { [key: string]: boolean } | null => {
 export class CustomerComponent implements OnInit {
   customer = new Customer();
   customerForm!: FormGroup;
+  emailMessage: string;
+
+  private validationMessages = {
+    required: 'Please enter your email address',
+    email: 'Please enter a valid email address'
+  }
 
   constructor(private fb: FormBuilder) {
   }
@@ -59,15 +66,38 @@ export class CustomerComponent implements OnInit {
     //   sendCatalog: new FormControl(true)
     // })
 
-    console.log(this.customerForm)
-    this.customerForm.statusChanges.subscribe(
-      (status) => console.log(this.customerForm.get('lastName'))
-    );
+    // console.log(this.customerForm)
+    // this.customerForm.statusChanges.subscribe(
+    //   (status) => console.log(this.customerForm.get('lastName'))
+    // );
+    //
+    // this.customerForm.valueChanges.subscribe(
+    //   (value) => console.log(value)
+    // );
+
+    this.customerForm.get('notification').valueChanges.subscribe(
+      value => this.setNotification(value)
+    )
+
+    const emailControl = this.customerForm.get('emailGroup.email')
+    emailControl.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe(
+      value => this.setMessage(emailControl)
+    )
   }
 
   save(): void {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
+  }
+
+  setMessage(c: AbstractControl): void {
+    this.emailMessage = ''
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors).map(
+        key => this.validationMessages[key]).join(' ')
+    }
   }
 
   populateTestData(): void {
