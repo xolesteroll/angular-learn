@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!--
+          Create a Form with the following Controls and Validators
+          1) Project Name (should not be empty)
+          2) Mail (should not be a empty and a valid email)
+          3) Project Status Dropdown, with three values: 'Stable', 'Critical', 'Finished'
+          4) Submit Button
+
+          Add your own Validator which doesn't allow "Test" as a Project Name
+
+          Also implement that Validator as an async Validator (replace the other one)
+
+          Upon submitting the form, simply print the value to the console
+      -->
+      <form novalidate (ngSubmit)="save()" [formGroup]="form">
+        <div class="form-group">
+          <label for="project-name" class="col-md col-form-label">
+            Project Name
+          </label>
+          <input class="form-control"
+                 type="text"
+                 id="project-name"
+                 placeholder="Project name (required)"
+                 formControlName="projectName"
+                 [ngClass]="{'is-invalid': (form.get('projectName').touched || form.get('projectName').dirty) && !form.get('projectName').valid }">
+          <span class="invalid-feedback">
+              <span *ngIf="form.get('projectName').errors?.required && form.get('projectName').touched">
+                Please enter project name
+              </span>
+              <span *ngIf="form.get('projectName').errors?.text && form.get('projectName').touched">
+                This name is not allowed, please enter another one.
+              </span>
+            </span>
+        </div>
+        <div class="form-group">
+          <label for="email" class="col-md col-form-label">
+            Email
+          </label>
+          <input class="form-control"
+                 type="text"
+                 id="email"
+                 placeholder="Email (required)"
+                 formControlName="email"
+                 [ngClass]="{'is-invalid': (form.get('email').touched || form.get('email').dirty) && !form.get('email').valid }">
+          <span *ngIf="form.get('email').errors?.required && form.get('email').touched ">
+                Please enter email
+              </span>
+          <span *ngIf="form.get('email').errors?.email && form.get('email').touched ">
+                Please enter a valid email.
+              </span>
+        </div>
+
+        <div class="form-group">
+          <label for="status" class="col-md col-form-label">
+            Project Name
+          </label>
+          <select id="status" class="form-control" formControlName="status">
+            <option value="stable">Stable</option>
+            <option value="stable">Critical</option>
+            <option value="stable">Finished</option>
+          </select>
+        </div>
+
+        <div class="form-group row mb-2">
+          <div class="offset-md-2 col-md-4">
+            <button class="btn btn-primary mr-3"
+                    type="submit"
+                    [disabled]="!form.valid">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
