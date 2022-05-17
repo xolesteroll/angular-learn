@@ -14,6 +14,10 @@ export class ShoppingListService {
     return [...this.ingredients]
   }
 
+  getIngredient(index: number) {
+    return this.ingredients[index]
+  }
+
   addIngredient(ingredient: IngredientModel) {
     this.ingredients.push(ingredient)
     this.ingredientChanged.next([...this.ingredients])
@@ -21,6 +25,16 @@ export class ShoppingListService {
 
   addIngredients(ingredients: IngredientModel[]) {
     this.ingredients.push(...ingredients)
+    this.ingredientChanged.next([...this.ingredients])
+  }
+  
+  deleteIngredient(index: number) {
+    this.ingredients = this.ingredients.filter((ing, i) => i !== index)
+  }
+
+
+  updateIngredient(index: number, newIngredient: IngredientModel) {
+    this.ingredients[index] = newIngredient
     this.ingredientChanged.next([...this.ingredients])
   }
 }

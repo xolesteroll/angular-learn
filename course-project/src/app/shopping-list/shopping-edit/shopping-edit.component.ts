@@ -18,6 +18,7 @@ export class ShoppingEditComponent implements OnInit {
   subscription!: Subscription
   editMode: boolean = false
   editedItemIndex!: number
+  editingItem!: IngredientModel
 
   constructor(private slService: ShoppingListService,
               private fb: FormBuilder) {
@@ -33,15 +34,13 @@ export class ShoppingEditComponent implements OnInit {
       (index: number) => {
         this.editedItemIndex = index
         this.editMode = true
+        this.editingItem = this.slService.getIngredient(index)
+        this.ingredientForm.setValue({
+          name: this.editingItem.name,
+          amount: this.editingItem.amount
+        })
       }
     )
-  }
-
-  onAddIngredient() {
-    // const ingName = this.nameInput.nativeElement.value
-    // const ingAmount = this.amountInput.nativeElement.value
-    // const newIngredient = new IngredientModel(ingName, ingAmount)
-    // this.slService.addIngredient(newIngredient)
   }
 
   onAddItem() {
@@ -49,11 +48,20 @@ export class ShoppingEditComponent implements OnInit {
     const ingAmount = this.ingredientForm.get('amount')?.value
     const newIngredient = new IngredientModel(ingName, ingAmount)
 
-    this.slService.addIngredient(newIngredient)
+    this.editMode ?
+      this.slService.updateIngredient(this.editedItemIndex, newIngredient) :
+      this.slService.addIngredient(newIngredient)
+
+    this.editMode = false
     this.ingredientForm.reset()
   }
 
+  onDeleteItem(index: number) {
+    this.slService.deleteIngredient(index)
+  }
+
   onClearForm() {
+    this.editMode = false
     this.ingredientForm.reset()
   }
 
