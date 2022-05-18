@@ -27,9 +27,11 @@ export class ShoppingListService {
     this.ingredients.push(...ingredients)
     this.ingredientChanged.next([...this.ingredients])
   }
-  
+
   deleteIngredient(index: number) {
-    this.ingredients = this.ingredients.filter((ing, i) => i !== index)
+    this.ingredients.splice(index, 1)
+    // this.ingredients = this.ingredients.filter((ing, i) => i !== index)
+    this.ingredientChanged.next([...this.ingredients])
   }
 
 

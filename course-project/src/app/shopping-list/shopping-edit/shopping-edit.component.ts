@@ -58,6 +58,8 @@ export class ShoppingEditComponent implements OnInit {
 
   onDeleteItem(index: number) {
     this.slService.deleteIngredient(index)
+    this.onClearForm()
+    console.log(this.slService.getIngredients())
   }
 
   onClearForm() {

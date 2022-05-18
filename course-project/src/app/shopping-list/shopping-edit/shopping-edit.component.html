@@ -26,9 +26,8 @@
                   [disabled]="!ingredientForm.valid">{{editMode ? 'Update' : 'Add'}}</button>
           <button class="btn btn-danger"
                   type="button"
-                  [disabled]="!editMode"
                   (click)="onDeleteItem(editedItemIndex)"
-                  >Delete</button>
+                  *ngIf="editMode">Delete</button>
           <button class="btn btn-primary"
                   type="button"
                   (click)="onClearForm()"
