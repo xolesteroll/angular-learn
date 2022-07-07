@@ -7,6 +7,7 @@ import {Subject} from "rxjs";
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject()
+  recipeChanged = new Subject()
   private recipes: RecipeModel[] = [
     new RecipeModel(
       1,
@@ -14,8 +15,8 @@ export class RecipeService {
       'This is simply a test1231231',
       'https://image.shutterstock.com/image-vector/caprese-salad-recipe-step-by-260nw-1201271428.jpg',
       [
-        new IngredientModel('Meat', 1),
-        new IngredientModel('French Fries', 20),
+        new IngredientModel(1, 'Meat', 1),
+        new IngredientModel(2, 'French Fries', 20),
       ]),
     new RecipeModel(
       2,
@@ -23,8 +24,8 @@ export class RecipeService {
       'This is simply a test12312',
       'https://www.simplyrecipes.com/thmb/O-rhPnz2V3hdqKFPij8NlwZIKqs=/2376x1584/filters:fill(auto,1)/Simply-Recipes-Quesadilla-LEAD-5-55da42a2a306497c85b1328385e44d85.jpg',
       [
-        new IngredientModel('Fat', 3),
-        new IngredientModel('Broccoli', 25),
+        new IngredientModel(1, 'Fat', 3),
+        new IngredientModel(2, 'Broccoli', 25),
       ])
   ]
 
@@ -41,12 +42,19 @@ export class RecipeService {
         return s.id === id;
       }
     );
-    console.log(recipe)
     return recipe;
   }
 
   addIngredientsToShoppingList(ingredients: IngredientModel[]) {
     this.slService.addIngredients(ingredients)
+  }
+
+  deleteIngredient(recipeId: number, ingredientId: number) {
+    const recipe = this.recipes.find(e => e.id === recipeId)
+    if (recipe) {
+      recipe.ingredients = recipe.ingredients.filter(i => i.id !== ingredientId)
+    }
+    this.recipeChanged.next()
   }
 
   addRecipe(recipe: RecipeModel) {
@@ -55,7 +63,23 @@ export class RecipeService {
   }
 
   updateRecipe(index: number, newRecipe: RecipeModel) {
-    this.recipes[index] = newRecipe
-    this.recipesChanged.next([...this.recipes])
+    // @ts-ignore
+    const newRecipes = this.recipes.map(e => {
+      if (e.id === index) {
+        return {...newRecipe}
+      }
+      return e
+    })
+    this.recipes = newRecipes
+    this.recipesChanged.next(newRecipes)
   }
+
+  deleteRecipe(id: number) {
+    const updatedRecipes = this.recipes.filter(e => e.id !== id)
+
+    this.recipes = updatedRecipes
+    this.recipesChanged.next(this.recipes)
+  }
+
+
 }

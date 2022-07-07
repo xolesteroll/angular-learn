@@ -6,7 +6,7 @@
           <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">
             Save
           </button>
-          <button type="button" class="btn btn-danger">
+          <button (click)="onCancel()" type="button" class="btn btn-danger">
             Cancel
           </button>
         </div>
@@ -30,14 +30,15 @@
             <input type="text"
                    id="imagePath"
                    class="form-control"
-                   formControlName="imagePath">
+                   formControlName="imagePath"
+                   #imagePathInput>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <img src="" class="img-responsive">
+          <img [src]="imagePathInput.value" class="img-responsive" style="max-height: 200px">
         </div>
       </div>
 
@@ -61,7 +62,7 @@
             class="row"
             *ngFor="let ingredientCtrl of controls; let i = index"
             [formGroupName]="i"
-          style="margin-top: 10px;">
+            style="margin-top: 10px;">
             <div class="col-xs-8">
               <input type="text"
                      class="form-control"
@@ -73,7 +74,11 @@
                      formControlName="amount">
             </div>
             <div class="col-xs-2">
-              <button class="btn btn-danger">
+<!--              <div>{{recipeForm.get('ingredients')!.value[i].id}}</div>-->
+              <button
+                      (click)="onDeleteIngredient(+recipeForm.get('ingredients')!.value[i].id)"
+                      type="button"
+                      class="btn btn-danger">
                 X
               </button>
             </div>
@@ -84,7 +89,8 @@
               <button
                 type="button"
                 class="btn btn-success"
-                (click)="onAddIngredient()">Add Ingredient</button>
+                (click)="onAddIngredient()">Add Ingredient
+              </button>
             </div>
           </div>
         </div>

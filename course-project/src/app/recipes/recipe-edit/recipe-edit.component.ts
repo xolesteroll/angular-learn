@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import { CustomValidators } from 'src/app/shared/custom-validators';
 import { RecipeModel } from '../recipe.model';
 import {RecipeService} from '../recipe.service';
@@ -17,7 +17,8 @@ export class RecipeEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
-              private recipeService: RecipeService) {
+              private recipeService: RecipeService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -26,6 +27,11 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = !!params['id']
       this.initForm()
     })
+    this.recipeService.recipeChanged.subscribe(
+      () =>  {
+        this.initForm()
+      }
+    )
   }
 
   private initForm() {
@@ -39,10 +45,11 @@ export class RecipeEditComponent implements OnInit {
       recipeName = recipe!.name
       recipeImagePath = recipe!.imagePath
       recipeDescription = recipe!.description
-      if (recipe!.ingredients) {
-        for (let ingredient of recipe!.ingredients) {
+      if (recipe && recipe.ingredients) {
+        for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(
             this.fb.group({
+              id: [ingredient.id],
               name: [ingredient.name, Validators.required],
               amount: [ingredient.amount, [Validators.required, CustomValidators.numbersRange(0, 99)]]
             })
@@ -57,6 +64,7 @@ export class RecipeEditComponent implements OnInit {
       description: [recipeDescription, [Validators.required]],
       ingredients: recipeIngredients
     })
+
   }
 
   get controls() {
@@ -72,9 +80,15 @@ export class RecipeEditComponent implements OnInit {
     )
   }
 
+  onDeleteIngredient(id: number) {
+    this.recipeService.deleteIngredient(this.id, id)
+  }
+
   onSubmit() {
+    const recipesLength = this.recipeService.getRecipes().length
+
     const recipe = new RecipeModel(
-      this.editMode ? this.id : Math.random(),
+      this.editMode ? this.id : recipesLength + 1,
       this.recipeForm.value['name'],
       this.recipeForm.value['description'],
       this.recipeForm.value['imagePath'],
@@ -85,6 +99,12 @@ export class RecipeEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(recipe)
     }
+
+    this.router.navigate(['../'], {relativeTo: this.route})
+  }
+
+  onCancel() {
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
 }

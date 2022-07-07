@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-start',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipe-start.component.css']
 })
 export class RecipeStartComponent implements OnInit {
-
-  constructor() { }
+  recipesExist!: boolean
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit(): void {
+    const recipes = this.recipeService.getRecipes()
+    this.recipesExist = recipes.length > 0 ? true : false
   }
 
 }

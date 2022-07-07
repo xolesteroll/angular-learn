@@ -44,9 +44,10 @@ export class ShoppingEditComponent implements OnInit {
   }
 
   onAddItem() {
+    const ingredientsLength = this.slService.getIngredients().length
     const ingName = this.ingredientForm.get('name')?.value
     const ingAmount = this.ingredientForm.get('amount')?.value
-    const newIngredient = new IngredientModel(ingName, ingAmount)
+    const newIngredient = new IngredientModel(ingredientsLength + 1, ingName, ingAmount)
 
     this.editMode ?
       this.slService.updateIngredient(this.editedItemIndex, newIngredient) :
