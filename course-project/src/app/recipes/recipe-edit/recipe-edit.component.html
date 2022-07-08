@@ -74,9 +74,8 @@
                      formControlName="amount">
             </div>
             <div class="col-xs-2">
-<!--              <div>{{recipeForm.get('ingredients')!.value[i].id}}</div>-->
               <button
-                      (click)="onDeleteIngredient(+recipeForm.get('ingredients')!.value[i].id)"
+                      (click)="onDeleteIngredient(i)"
                       type="button"
                       class="btn btn-danger">
                 X

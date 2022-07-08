@@ -27,11 +27,6 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = !!params['id']
       this.initForm()
     })
-    this.recipeService.recipeChanged.subscribe(
-      () =>  {
-        this.initForm()
-      }
-    )
   }
 
   private initForm() {
@@ -80,8 +75,8 @@ export class RecipeEditComponent implements OnInit {
     )
   }
 
-  onDeleteIngredient(id: number) {
-    this.recipeService.deleteIngredient(this.id, id)
+  onDeleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index)
   }
 
   onSubmit() {

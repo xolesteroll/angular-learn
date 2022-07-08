@@ -7,7 +7,6 @@ import {Subject} from "rxjs";
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject()
-  recipeChanged = new Subject()
   private recipes: RecipeModel[] = [
     new RecipeModel(
       1,
@@ -54,7 +53,6 @@ export class RecipeService {
     if (recipe) {
       recipe.ingredients = recipe.ingredients.filter(i => i.id !== ingredientId)
     }
-    this.recipeChanged.next()
   }
 
   addRecipe(recipe: RecipeModel) {
