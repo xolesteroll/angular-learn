@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from "rxjs/operators";
-import {PostModel} from "./post.model";
+import {PostModel} from './post.model';
+import {PostsService} from './posts.service';
 
 @Component({
   selector: 'app-root',
@@ -10,49 +10,53 @@ import {PostModel} from "./post.model";
 })
 export class AppComponent implements OnInit {
   loadedPosts: PostModel[] = [];
-  isFetching: boolean = false;
+  isFetching = false;
+  error = null
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private postService: PostsService) {
   }
 
   ngOnInit() {
-    this.fetchPosts()
+    this.fetchPostsHandler()
+  }
+
+  private fetchPostsHandler() {
+    this.isFetching = true
+    this.postService.fetchPosts().subscribe(posts => {
+      this.isFetching = false
+      this.loadedPosts = posts
+    }, error => {
+      this.isFetching = false
+      this.error = error.error.error ? error.error.error : 'Oops, something went wrong'
+    })
   }
 
   onCreatePost(postData: PostModel) {
     // Send Http request
-    this.http.post<{name: string}>('https://angular-http-ea14b-default-rtdb.europe-west1.firebasedatabase.app/posts.json', postData)
+    this.postService.createAndStorePost(postData.title, postData.content)
       .subscribe(res => {
         console.log(res)
+        this.fetchPostsHandler()
       })
   }
 
   onFetchPosts() {
     // Send Http request
-    this.fetchPosts()
+    this.fetchPostsHandler()
   }
 
   onClearPosts() {
     // Send Http request
+    this.postService.clearPosts()
+      .subscribe(response => {
+        this.loadedPosts = []
+      }, error => {
+        this.error = 'Unable to clear posts'
+      })
   }
 
-  private fetchPosts() {
-    this.isFetching = true
-    this.http
-      .get<{[key: string]: PostModel}>('https://angular-http-ea14b-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
-      .pipe(map((response) => {
-        const postArray: PostModel[] = []
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
-            postArray.push({...response[key], id: key})
-          }
-        }
-        return postArray
-      }))
-      .subscribe(posts => {
-        console.log(posts)
-        this.loadedPosts = posts
-        this.isFetching = false
-      })
+  onHandleError() {
+    this.error = null
   }
 }
