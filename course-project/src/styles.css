@@ -3,6 +3,6 @@ ul {
   list-style: none;
 }
 
-button + button {
-  margin-left: 5px;
-}
+/*button + button {*/
+/*  margin-left: 5px;*/
+/*}*/

@@ -6,7 +6,7 @@ import {Subject} from "rxjs";
 
 @Injectable()
 export class RecipeService {
-  recipesChanged = new Subject()
+  recipesChanged = new Subject<RecipeModel[]>()
   private recipes: RecipeModel[] = []
   // private recipes: RecipeModel[] = [
   //   new RecipeModel(
