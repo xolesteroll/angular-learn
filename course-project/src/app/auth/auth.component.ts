@@ -4,6 +4,8 @@ import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 
+// import {AlertComponent} from "../shared/alert/alert.component";
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -69,5 +71,7 @@ export class AuthComponent implements OnInit {
     this.error = null
   }
 
-
+  // private showErrorAlert(message: string) {
+  //   const alertCmp = new AlertComponent()
+  // }
 }
