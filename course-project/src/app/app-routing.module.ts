@@ -1,7 +1,5 @@
 import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {ShoppingListComponent} from "./shopping-list/shopping-list.component";
-import {AuthComponent} from "./auth/auth.component";
+import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
 
 const appRoutes: Routes = [
   {
@@ -10,14 +8,27 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'recipes',
+    loadChildren: () => import('./recipes/recipes.module')
+      .then(m => m.RecipesModule)
+  },
+  {
+    path: 'shopping',
+    loadChildren: () => import('./shopping-list/shopping-list.module')
+      .then(m => m.ShoppingListModule)
+  },
+  {
     path: 'auth',
-    component: AuthComponent
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule)
   }
 ]
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes,
+      // Config to preload all lazy loaded module after initial load
+      {preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })
