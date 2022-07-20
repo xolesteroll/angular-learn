@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   public signUp(email: string, password: string) {
-    const apiKey = environment.webApi
+    const apiKey = environment.webApiKey
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
       {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   public login(email: string, password: string) {
-    const apiKey = environment.webApi
+    const apiKey = environment.webApiKey
     return this.http.post<AuthResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
       {
         email,

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  webApi: 'AIzaSyA6rRI8QFB9b8c6cjACZyU_xI9J7A5mZTE'
+  webApiKey: 'AIzaSyA6rRI8QFB9b8c6cjACZyU_xI9J7A5mZTE'
 };
 
 /*
